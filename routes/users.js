@@ -1,4 +1,5 @@
-const { sendAllUsers, sendUserUpdated, sendUserCreated, sendUserDeleted } = require("../controllers/users");
+const { sendAllUsers, sendUserUpdated, sendUserCreated, sendUserDeleted, sendMe } = require("../controllers/users");
+const { checkAuth } = require("../middlewars/auth");
 const {
 	findAllUsers,
 	createUser,
@@ -18,11 +19,13 @@ usersRouter.post(
 	findAllUsers,
 	checkIsUserExists,
 	checkEmptyNameAndEmailAndPassword,
+	checkAuth,
 	hashPassword,
 	createUser,
 	sendUserCreated
 );
-usersRouter.put("/users/:id", checkEmptyNameAndEmail, updateUser, sendUserUpdated);
-usersRouter.delete("/users/:id", deleteUser, sendUserDeleted);
+usersRouter.put("/users/:id", checkEmptyNameAndEmail, checkAuth, updateUser, sendUserUpdated);
+usersRouter.delete("/users/:id", checkAuth, deleteUser, sendUserDeleted);
+usersRouter.get("/me", checkAuth, sendMe);
 
 module.exports = usersRouter;
