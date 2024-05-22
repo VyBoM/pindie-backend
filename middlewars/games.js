@@ -23,7 +23,7 @@ const findGameById = async (req, res, next) => {
 
 const createGame = async (req, res, next) => {
 	try {
-		req.game = await games.create(req.body);
+		req.game = await game.create(req.body);
 		next();
 	} catch (err) {
 		res.status(400).send({ message: "Error creating game" });
@@ -32,7 +32,7 @@ const createGame = async (req, res, next) => {
 
 const updateGame = async (req, res, next) => {
 	try {
-		req.game = await games.findByIdAndUpdate(req.params.id, req.body);
+		req.game = await game.findByIdAndUpdate(req.params.id, req.body);
 		next();
 	} catch (err) {
 		res.status(400).send({ message: "Error updating game" });
@@ -41,7 +41,7 @@ const updateGame = async (req, res, next) => {
 
 const deleteGame = async (req, res, next) => {
 	try {
-		req.game = await games.findByIdAndDelete(req.params.id);
+		req.game = await game.findByIdAndDelete(req.params.id);
 		next();
 	} catch (err) {
 		res.status(400).send({ message: "Error deleting game" });
@@ -94,6 +94,17 @@ const checkIsGameExists = async (req, res, next) => {
 	}
 };
 
+const checkIsVoteRequest = async (req, res, next) => {
+	if (Object.keys(req.body).length === 1 && req.body.users) {
+		req.isVoteRequest = true;
+	}
+	if (req.isVoteRequest) {
+		next();
+		return;
+	}
+	next();
+};
+
 module.exports = {
 	findAllGames,
 	createGame,
@@ -103,5 +114,6 @@ module.exports = {
 	checkEmptyFields,
 	checkIfCategoriesAvaliable,
 	checkIfUsersAreSafe,
-	checkIsGameExists
+	checkIsGameExists,
+	checkIsVoteRequest
 };

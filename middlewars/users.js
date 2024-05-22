@@ -1,5 +1,5 @@
 const users = require("../models/user");
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 
 const findAllUsers = async (req, res, next) => {
 	console.log("GET /users");
@@ -21,7 +21,7 @@ const createUser = async (req, res, next) => {
 		req.user = await users.create(req.body);
 		next();
 	} catch (err) {
-		res.status(400).send({ message: "Error creating user" });
+		res.status(400).send({ message: "Ошибка создания пользователя" });
 	}
 };
 
@@ -72,7 +72,6 @@ const checkEmptyNameAndEmailAndPassword = async (req, res, next) => {
 	}
 };
 
-
 const hashPassword = async (req, res, next) => {
 	try {
 		const salt = await bcrypt.genSalt(10);
@@ -82,7 +81,7 @@ const hashPassword = async (req, res, next) => {
 	} catch (error) {
 		res.status(400).send({ message: "Ошибка хэширования пароля" });
 	}
-}
+};
 
 module.exports = {
 	findAllUsers,

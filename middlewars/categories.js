@@ -20,7 +20,7 @@ const createCategory = async (req, res, next) => {
 		req.category = await categories.create(req.body);
 		next();
 	} catch (err) {
-		res.status(400).send({ message: "Error creating category" });
+		res.status(400).send({ message: "Ошибка создания категории" });
 	}
 };
 
