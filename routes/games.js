@@ -1,9 +1,18 @@
-const { sendGameCreated, sendAllGames, sendGameUpdated, sendGameDeleted } = require("../controllers/games");
+const gamesRouter = require("express").Router();
 const { checkAuth } = require("../middlewars/auth");
+
+const {
+	sendGameCreated,
+	sendAllGames,
+	sendGameUpdated,
+	sendGameDeleted,
+	sendGameById
+} = require("../controllers/games");
+
 const {
 	findAllGames,
-	createGame,
 	findGameById,
+	createGame,
 	updateGame,
 	deleteGame,
 	checkEmptyFields,
@@ -13,9 +22,9 @@ const {
 	checkIsVoteRequest
 } = require("../middlewars/games");
 
-const gamesRouter = require("express").Router();
-
 gamesRouter.get("/games", findAllGames, sendAllGames);
+gamesRouter.get("/games/:id", findGameById, sendGameById);
+
 gamesRouter.post(
 	"/games",
 	findAllGames,
@@ -37,6 +46,7 @@ gamesRouter.put(
 	updateGame,
 	sendGameUpdated
 );
+
 gamesRouter.delete("/games/:id", checkAuth, deleteGame, sendGameDeleted);
 
 module.exports = gamesRouter;

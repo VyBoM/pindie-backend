@@ -1,5 +1,8 @@
-const { sendAllUsers, sendUserUpdated, sendUserCreated, sendUserDeleted, sendMe } = require("../controllers/users");
+const usersRouter = require("express").Router();
 const { checkAuth } = require("../middlewars/auth");
+
+
+const { sendAllUsers, sendUserUpdated, sendUserCreated, sendUserDeleted, sendMe } = require("../controllers/users");
 const {
 	findAllUsers,
 	createUser,
@@ -11,7 +14,6 @@ const {
 	hashPassword
 } = require("../middlewars/users");
 
-const usersRouter = require("express").Router();
 
 usersRouter.get("/users", findAllUsers, sendAllUsers);
 usersRouter.post(
