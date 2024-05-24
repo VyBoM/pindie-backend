@@ -1,10 +1,13 @@
+const categoriesRouter = require("express").Router();
+const { checkAuth } = require("../middlewars/auth");
+
+
 const {
 	sendCategoryCreated,
 	sendAllCategories,
 	sendCategoryUpdated,
 	sendCategoryDeleted
 } = require("../controllers/categories");
-const { checkAuth } = require("../middlewars/auth");
 const {
 	findAllCategories,
 	createCategory,
@@ -14,7 +17,6 @@ const {
     checkIsCategoryExists
 } = require("../middlewars/categories");
 
-const categoriesRouter = require("express").Router();
 
 categoriesRouter.get("/categories", findAllCategories, sendAllCategories);
 categoriesRouter.post("/categories", findAllCategories, checkIsCategoryExists, checkEmptyName, checkAuth, createCategory, sendCategoryCreated);
