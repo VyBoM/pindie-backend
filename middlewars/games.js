@@ -60,13 +60,9 @@ const checkEmptyFields = async (req, res, next) => {
 		return;
 	}
 
-	if (
-		!req.body.title ||
-		!req.body.description ||
-		!req.body.image ||
-		!req.body.link ||
-		!req.body.developer
-	) {
+
+	if (!req.body.title || !req.body.description || !req.body.image || !req.body.link || !req.body.developer) {
+
 		res.setHeader("Content-Type", "application/json");
 		res.status(400).send(JSON.stringify({ message: "Заполните все поля" }));
 	} else {
