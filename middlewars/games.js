@@ -17,14 +17,16 @@ const findAllGames = async (req, res, next) => {
 
 const findGameById = async (req, res, next) => {
 	try {
-		req.game = await games
+		req.game = await game
 			.findById(req.params.id)
 			.populate("categories")
-			.populate("users");
+			.populate({
+				path: "users",
+				select: "-password",
+			});
 		next();
-	} catch (error) {
-		res.setHeader("Content-Type", "application/json");
-		res.status(404).send(JSON.stringify({ message: "Game not found" }));
+	} catch (err) {
+		res.status(404).send({ message: "Game not found" });
 	}
 };
 const createGame = async (req, res, next) => {
@@ -60,9 +62,13 @@ const checkEmptyFields = async (req, res, next) => {
 		return;
 	}
 
-
-	if (!req.body.title || !req.body.description || !req.body.image || !req.body.link || !req.body.developer) {
-
+	if (
+		!req.body.title ||
+		!req.body.description ||
+		!req.body.image ||
+		!req.body.link ||
+		!req.body.developer
+	) {
 		res.setHeader("Content-Type", "application/json");
 		res.status(400).send(JSON.stringify({ message: "Заполните все поля" }));
 	} else {
